@@ -1,0 +1,13 @@
+{
+  "background_color": "rgb(5, 8, 22)",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "AURA AI",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "AURA",
+  "start_url": "/",
+  "theme_color": "#00d9ff",
+  "id": "/aura-ai",
+  "description": "A futuristic AI assistant powered by AURA CORE.\nBackground Color\t#050816"
+}

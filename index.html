@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AURA CORE AI</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --cyan:#00eaff;
+    --blue:#008cff;
+    --green:#00ffc8;
+    --dark:#02070d;
+    --panel:rgba(3,18,31,.72);
+    --border:rgba(0,225,255,.22);
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 50% 45%,#09283d 0%,#03111d 25%,#01060b 60%,#000 100%);
+    color:#dffaff;
+    font-family:'Rajdhani',sans-serif;
+    overflow:hidden;
+}
+
+/* BACKGROUND GRID */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(0,220,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,220,255,.035) 1px,transparent 1px);
+    background-size:42px 42px;
+    mask-image:linear-gradient(to bottom,transparent,black 20%,black 80%,transparent);
+    pointer-events:none;
+}
+
+/* SCANLINE */
+
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:linear-gradient(
+        transparent 50%,
+        rgba(0,220,255,.018) 50%
+    );
+    background-size:100% 5px;
+    pointer-events:none;
+}
+
+/* HEADER */
+
+header{
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 32px;
+    border-bottom:1px solid var(--border);
+    background:rgba(0,8,16,.78);
+    backdrop-filter:blur(18px);
+    position:relative;
+    z-index:5;
+    box-shadow:0 5px 35px rgba(0,180,255,.05);
+}
+
+.logo{
+    font-family:'Orbitron';
+    font-size:25px;
+    font-weight:700;
+    letter-spacing:6px;
+    text-shadow:0 0 18px rgba(0,234,255,.65);
+}
+
+.logo span{
+    display:block;
+    margin-top:3px;
+    font-size:9px;
+    font-weight:500;
+    color:#4d899b;
+    letter-spacing:3px;
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Orbitron';
+    font-size:10px;
+    letter-spacing:2px;
+    color:#7ffaff;
+}
+
+.status-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#00ffc8;
+    box-shadow:
+        0 0 8px #00ffc8,
+        0 0 22px #00ffc8;
+    animation:pulse 1.6s infinite;
+}
+
+@keyframes pulse{
+    50%{
+        opacity:.3;
+        transform:scale(.65);
+    }
+}
+
+/* MAIN */
+
+.main{
+    height:calc(100vh - 72px);
+    display:grid;
+    grid-template-columns:45% 55%;
+}
+
+/* CORE AREA */
+
+.core-area{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+.core-area::before{
+    content:"";
+    position:absolute;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:radial-gradient(
+        circle,
+        rgba(0,220,255,.07),
+        transparent 65%
+    );
+}
+
+/* CORE */
+
+.core{
+    width:350px;
+    height:350px;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.ring{
+    position:absolute;
+    border-radius:50%;
+    border:1px solid rgba(0,225,255,.42);
+}
+
+.ring1{
+    width:330px;
+    height:330px;
+    border-left-color:var(--cyan);
+    border-right-color:transparent;
+    animation:spin 13s linear infinite;
+    box-shadow:0 0 12px rgba(0,225,255,.15);
+}
+
+.ring2{
+    width:275px;
+    height:275px;
+    border-top-color:var(--green);
+    border-bottom-color:transparent;
+    animation:spinReverse 8s linear infinite;
+}
+
+.ring3{
+    width:220px;
+    height:220px;
+    border-left-color:var(--blue);
+    border-right-color:var(--cyan);
+    animation:spin 5s linear infinite;
+}
+
+.ring4{
+    width:175px;
+    height:175px;
+    border:1px dashed rgba(0,255,220,.45);
+    animation:spinReverse 11s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes spinReverse{
+    to{
+        transform:rotate(-360deg);
+    }
+}
+
+/* CORE CENTER */
+
+.core-inner{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    position:relative;
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #eaffff 0%,
+            #54edff 7%,
+            #00bce9 22%,
+            #006486 43%,
+            #031521 70%
+        );
+
+    box-shadow:
+        0 0 20px #00eaff,
+        0 0 55px rgba(0,225,255,.75),
+        0 0 110px rgba(0,140,255,.4),
+        inset 0 0 30px rgba(255,255,255,.25);
+
+    animation:corePulse 2s ease-in-out infinite;
+}
+
+.core-inner::after{
+    content:"";
+    position:absolute;
+    inset:22px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.7);
+    opacity:.45;
+}
+
+@keyframes corePulse{
+    50%{
+        transform:scale(1.09);
+        box-shadow:
+            0 0 30px #00eaff,
+            0 0 85px rgba(0,225,255,.8),
+            0 0 150px rgba(0,140,255,.45),
+            inset 0 0 35px rgba(255,255,255,.3);
+    }
+}
+
+.core-label{
+    position:absolute;
+    bottom:-40px;
+    text-align:center;
+    font-family:'Orbitron';
+    font-size:12px;
+    letter-spacing:5px;
+    color:#78f6ff;
+    text-shadow:0 0 12px rgba(0,234,255,.7);
+}
+
+/* SYSTEM INFO */
+
+.system-info{
+    position:absolute;
+    left:28px;
+    right:28px;
+    bottom:28px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
+}
+
+.info{
+    padding:11px 8px;
+    border:1px solid rgba(0,220,255,.18);
+    background:rgba(0,20,35,.55);
+    backdrop-filter:blur(8px);
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.info::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:1px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        var(--cyan),
+        transparent
+    );
+}
+
+.info small{
+    color:#507789;
+    font-size:8px;
+    letter-spacing:2px;
+}
+
+.info div{
+    margin-top:5px;
+    color:#7df6ff;
+    font-family:'Orbitron';
+    font-size:9px;
+    letter-spacing:1px;
+}
+
+/* CHAT AREA */
+
+.chat-area{
+    padding:27px 30px 25px 20px;
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+}
+
+.panel-title{
+    font-family:'Orbitron';
+    font-size:12px;
+    letter-spacing:3px;
+    color:#7df6ff;
+    margin-bottom:11px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.panel-title::before{
+    content:"";
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--cyan);
+    box-shadow:0 0 12px var(--cyan);
+}
+
+/* CHAT */
+
+.chat{
+    flex:1;
+    overflow-y:auto;
+    padding:17px;
+    border:1px solid rgba(0,220,255,.2);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,20,34,.68),
+            rgba(0,5,12,.78)
+        );
+    backdrop-filter:blur(14px);
+    box-shadow:
+        inset 0 0 45px rgba(0,200,255,.025),
+        0 0 35px rgba(0,100,180,.04);
+}
+
+.chat::-webkit-scrollbar{
+    width:5px;
+}
+
+.chat::-webkit-scrollbar-track{
+    background:rgba(0,0,0,.25);
+}
+
+.chat::-webkit-scrollbar-thumb{
+    background:#087b91;
+    border-radius:10px;
+}
+
+/* MESSAGES */
+
+.message{
+    margin-bottom:16px;
+    animation:appear .25s ease;
+}
+
+@keyframes appear{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.message .name{
+    font-family:'Orbitron';
+    font-size:8px;
+    letter-spacing:2px;
+    margin-bottom:5px;
+    color:#00eaff;
+}
+
+.message .text{
+    padding:11px 14px;
+    display:inline-block;
+    max-width:92%;
+    border-left:2px solid #00cfff;
+    background:rgba(0,150,190,.075);
+    line-height:1.5;
+    font-size:15px;
+    color:#d9f8ff;
+}
+
+.message.user{
+    text-align:right;
+}
+
+.message.user .name{
+    color:#fff;
+}
+
+.message.user .text{
+    border-left:0;
+    border-right:2px solid #fff;
+    background:rgba(255,255,255,.045);
+}
+
+/* INPUT */
+
+.controls{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+}
+
+.input{
+    flex:1;
+    height:53px;
+    padding:0 17px;
+    border:1px solid rgba(0,220,255,.28);
+    outline:none;
+    background:rgba(0,10,19,.88);
+    color:white;
+    font-family:'Rajdhani';
+    font-size:16px;
+    transition:.2s;
+}
+
+.input::placeholder{
+    color:#426674;
+}
+
+.input:focus{
+    border-color:#00eaff;
+    box-shadow:
+        0 0 18px rgba(0,220,255,.12),
+        inset 0 0 15px rgba(0,220,255,.025);
+}
+
+button{
+    border:1px solid rgba(0,225,255,.4);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,150,190,.13),
+            rgba(0,50,80,.15)
+        );
+    color:#8ff7ff;
+    cursor:pointer;
+    font-family:'Orbitron';
+    transition:.2s;
+}
+
+button:hover{
+    background:rgba(0,220,255,.16);
+    border-color:#00eaff;
+    box-shadow:
+        0 0 20px rgba(0,220,255,.18),
+        inset 0 0 10px rgba(0,220,255,.08);
+}
+
+.send{
+    width:78px;
+    font-size:9px;
+    letter-spacing:1px;
+}
+
+.mic{
+    width:56px;
+    font-size:18px;
+}
+
+.mic.listening{
+    background:rgba(255,40,80,.16);
+    border-color:#ff416c;
+    color:#ff6c8c;
+    animation:micPulse 1s infinite;
+}
+
+@keyframes micPulse{
+    50%{
+        box-shadow:
+            0 0 25px rgba(255,50,100,.6);
+    }
+}
+
+/* COMMANDS */
+
+.commands{
+    display:flex;
+    gap:6px;
+    margin-top:9px;
+    flex-wrap:wrap;
+}
+
+.command{
+    padding:5px 9px;
+    font-size:7px;
+    letter-spacing:1px;
+    border:1px solid rgba(0,220,255,.13);
+    color:#527987;
+    background:rgba(0,20,30,.35);
+}
+
+/* MOBILE */
+
+@media(max-width:850px){
+
+    body{
+        overflow:auto;
+    }
+
+    header{
+        padding:0 18px;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .logo span{
+        font-size:7px;
+    }
+
+    .main{
+        height:auto;
+        min-height:calc(100vh - 72px);
+        grid-template-columns:1fr;
+    }
+
+    .core-area{
+        height:420px;
+    }
+
+    .chat-area{
+        height:620px;
+        padding:20px;
+    }
+
+    .system-info{
+        bottom:12px;
+    }
+
+    .core{
+        transform:scale(.85);
+    }
+}
+
+@media(max-width:500px){
+
+    .status{
+        font-size:7px;
+    }
+
+    .status-dot{
+        width:7px;
+        height:7px;
+    }
+
+    .controls{
+        gap:5px;
+    }
+
+    .send{
+        width:65px;
+    }
+
+    .mic{
+        width:48px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        AURA
+        <span>ARTIFICIAL UNIVERSAL RESPONSE ARCHITECTURE</span>
+    </div>
+
+    <div class="status">
+        <div class="status-dot"></div>
+        SYSTEM ONLINE
+    </div>
+
+</header>
+
+
+<div class="main">
+
+    <!-- CORE -->
+
+    <section class="core-area">
+
+        <div class="core">
+
+            <div class="ring ring1"></div>
+            <div class="ring ring2"></div>
+            <div class="ring ring3"></div>
+            <div class="ring ring4"></div>
+
+            <div class="core-inner"></div>
+
+            <div class="core-label">
+                AURA CORE
+            </div>
+
+        </div>
+
+
+        <div class="system-info">
+
+            <div class="info">
+                <small>CORE</small>
+                <div>ONLINE</div>
+            </div>
+
+            <div class="info">
+                <small>VOICE</small>
+                <div id="voiceStatus">READY</div>
+            </div>
+
+            <div class="info">
+                <small>AI ENGINE</small>
+                <div>GROQ</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CHAT -->
+
+    <section class="chat-area">
+
+        <div class="panel-title">
+            AURA COMMUNICATION TERMINAL
+        </div>
+
+
+        <div class="chat" id="chat">
+
+            <div class="message">
+
+                <div class="name">
+                    AURA
+                </div>
+
+                <div class="text">
+                    System initialized. Hello Arham. I am AURA. How can I assist you?
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="controls">
+
+            <input
+                id="input"
+                class="input"
+                type="text"
+                placeholder="Speak or type a command..."
+                autocomplete="off"
+            >
+
+            <button
+                id="mic"
+                class="mic"
+                title="Voice input">
+                🎙
+            </button>
+
+            <button
+                id="send"
+                class="send">
+                SEND
+            </button>
+
+        </div>
+
+
+        <div class="commands">
+
+            <div class="command">OPEN GOOGLE</div>
+            <div class="command">OPEN YOUTUBE</div>
+            <div class="command">SEARCH YOUTUBE</div>
+            <div class="command">SEARCH GOOGLE</div>
+            <div class="command">OPEN GITHUB</div>
+            <div class="command">TIME</div>
+            <div class="command">DATE</div>
+            <div class="command">CLEAR CHAT</div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   AURA CONFIGURATION
+   ========================================================= */
+
+/*
+   >>> PASTE YOUR GROQ API KEY ONLY HERE <<<
+*/
+
+const GROQ_API_KEY = "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";
+
+
+const GROQ_MODEL =
+    "openai/gpt-oss-120b";
+
+
+const GROQ_ENDPOINT =
+    "https://api.groq.com/openai/v1/chat/completions";
+
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const chat =
+    document.getElementById("chat");
+
+const input =
+    document.getElementById("input");
+
+const send =
+    document.getElementById("send");
+
+const mic =
+    document.getElementById("mic");
+
+const voiceStatus =
+    document.getElementById("voiceStatus");
+
+
+/* =========================================================
+   MEMORY
+   ========================================================= */
+
+let conversation = [
+
+    {
+        role:"system",
+
+        content:`
+You are AURA, an advanced futuristic AI assistant.
+
+Your personality:
+- Intelligent
+- Calm
+- Helpful
+- Professional
+- Slightly futuristic
+- Concise but useful
+
+You are running inside a browser-based futuristic AI interface.
+
+You can communicate naturally with the user.
+
+Important:
+The browser itself handles supported browser commands.
+Do not pretend that you can control Windows, files,
+applications, hardware, or the entire computer unless
+the browser actually performed the requested action.
+
+If the user asks normal questions, answer normally.
+
+Keep answers reasonably concise because your responses
+may be spoken aloud using text-to-speech.
+`
+    }
+
+];
+
+
+/* =========================================================
+   ADD MESSAGE
+   ========================================================= */
+
+function addMessage(sender,text,type){
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message " + (type || "");
+
+    const name =
+        document.createElement("div");
+
+    name.className = "name";
+
+    name.textContent = sender;
+
+    const content =
+        document.createElement("div");
+
+    content.className = "text";
+
+    content.textContent = text;
+
+    message.appendChild(name);
+
+    message.appendChild(content);
+
+    chat.appendChild(message);
+
+    chat.scrollTop =
+        chat.scrollHeight;
+}
+
+
+/* =========================================================
+   SPEAK
+   ========================================================= */
+
+function speak(text){
+
+    if(!("speechSynthesis" in window)){
+        return;
+    }
+
+    speechSynthesis.cancel();
+
+    const cleanText =
+        text
+        .replace(/[*#`]/g,"")
+        .replace(/\n+/g,". ");
+
+    const speech =
+        new SpeechSynthesisUtterance(cleanText);
+
+    speech.rate = 1.02;
+    speech.pitch = 1;
+    speech.volume = 1;
+
+    speech.onstart = () => {
+
+        voiceStatus.textContent =
+            "SPEAKING";
+
+    };
+
+    speech.onend = () => {
+
+        voiceStatus.textContent =
+            "READY";
+
+    };
+
+    speech.onerror = () => {
+
+        voiceStatus.textContent =
+            "READY";
+
+    };
+
+    speechSynthesis.speak(speech);
+}
+
+
+/* =========================================================
+   BROWSER COMMANDS
+   ========================================================= */
+
+function handleCommand(text){
+
+    const command =
+        text.toLowerCase().trim();
+
+
+    /* OPEN YOUTUBE + SEARCH */
+
+    if(
+        command.includes("open youtube") &&
+        (
+            command.includes("search") ||
+            command.includes("find")
+        )
+    ){
+
+        let query =
+            text
+            .replace(/open youtube/gi,"")
+            .replace(/search/gi,"")
+            .replace(/find/gi,"")
+            .replace(/for/gi,"")
+            .trim();
+
+        if(query){
+
+            const url =
+                "https://www.youtube.com/results?search_query=" +
+                encodeURIComponent(query);
+
+            window.open(url,"_blank");
+
+            const response =
+                "Opening YouTube and searching for " +
+                query + ".";
+
+            addMessage(
+                "AURA",
+                response,
+                ""
+            );
+
+            speak(response);
+
+            return true;
+        }
+    }
+
+
+    /* SEARCH YOUTUBE */
+
+    if(
+        command.startsWith("search youtube for") ||
+        command.startsWith("search youtube")
+    ){
+
+        let query =
+            text
+            .replace(/search youtube for/gi,"")
+            .replace(/search youtube/gi,"")
+            .trim();
+
+        if(query){
+
+            const url =
+                "https://www.youtube.com/results?search_query=" +
+                encodeURIComponent(query);
+
+            window.open(url,"_blank");
+
+            const response =
+                "Searching YouTube for " +
+                query + ".";
+
+            addMessage(
+                "AURA",
+                response,
+                ""
+            );
+
+            speak(response);
+
+            return true;
+        }
+    }
+
+
+    /* OPEN YOUTUBE */
+
+    if(
+        command === "open youtube" ||
+        command === "launch youtube"
+    ){
+
+        window.open(
+            "https://www.youtube.com",
+            "_blank"
+        );
+
+        const response =
+            "Opening YouTube.";
+
+        addMessage(
+            "AURA",
+            response,
+            ""
+        );
+
+        speak(response);
+
+        return true;
+    }
+
+
+    /* SEARCH GOOGLE */
+
+    if(
+        command.startsWith("search google for") ||
+        command.startsWith("search google")
+    ){
+
+        let query =
+            text
+            .replace(/search google for/gi,"")
+            .replace(/search google/gi,"")
+            .trim();
+
+        if(query){
+
+            window.open(
+                "https://www.google.com/search?q=" +
+                encodeURIComponent(query),
+                "_blank"
+            );
+
+            const response =
+                "Searching Google for " +
+                query + ".";
+
+            addMessage(
+                "AURA",
+                response,
+                ""
+            );
+
+            speak(response);
+
+            return true;
+        }
+    }
+
+
+    /* GENERIC SEARCH */
+
+    if(command.startsWith("search ")){
+
+        const query =
+            text.substring(7).trim();
+
+        if(query){
+
+            window.open(
+                "https://www.google.com/search?q=" +
+                encodeURIComponent(query),
+                "_blank"
+            );
+
+            const response =
+                "Searching Google for " +
+                query + ".";
+
+            addMessage(
+                "AURA",
+                response,
+                ""
+            );
+
+            speak(response);
+
+            return true;
+        }
+    }
+
+
+    /* OPEN GOOGLE */
+
+    if(
+        command === "open google" ||
+        command === "launch google"
+    ){
+
+        window.open(
+            "https://www.google.com",
+            "_blank"
+        );
+
+        const response =
+            "Opening Google.";
+
+        addMessage(
+            "AURA",
+            response,
+            ""
+        );
+
+        speak(response);
+
+        return true;
+    }
+
+
+    /* OPEN GITHUB */
+
+    if(
+        command === "open github" ||
+        command === "launch github"
+    ){
+
+        window.open(
+            "https://github.com",
+            "_blank"
+        );
+
+        const response =
+            "Opening GitHub.";
+
+        addMessage(
+            "AURA",
+            response,
+            ""
+        );
+
+        speak(response);
+
+        return true;
+    }
+
+
+    /* TIME */
+
+    if(
+        command === "what time is it" ||
+        command === "what is the time"
+    ){
+
+        const time =
+            new Date().toLocaleTimeString();
+
+        const response =
+            "The current time is " +
+            time + ".";
+
+        addMessage(
+            "AURA",
+            response,
+            ""
+        );
+
+        speak(response);
+
+        return true;
+    }
+
+
+    /* DATE */
+
+    if(
+        command === "what is the date" ||
+        command === "what's the date"
+    ){
+
+        const date =
+            new Date().toLocaleDateString(
+                undefined,
+                {
+                    weekday:"long",
+                    year:"numeric",
+                    month:"long",
+                    day:"numeric"
+                }
+            );
+
+        const response =
+            "Today is " +
+            date + ".";
+
+        addMessage(
+            "AURA",
+            response,
+            ""
+        );
+
+        speak(response);
+
+        return true;
+    }
+
+
+    /* CLEAR */
+
+    if(
+        command === "clear chat" ||
+        command === "clear"
+    ){
+
+        chat.innerHTML = "";
+
+        addMessage(
+            "AURA",
+            "Communication terminal cleared.",
+            ""
+        );
+
+        return true;
+    }
+
+
+    return false;
+}
+
+
+/* =========================================================
+   GROQ AI
+   ========================================================= */
+
+async function askAura(userText){
+
+    if(
+        !GROQ_API_KEY ||
+        GROQ_API_KEY ===
+        "PASTE_YOUR_GROQ_API_KEY_HERE"
+    ){
+
+        const error =
+            "Groq API key is missing. Paste your API key in the CONFIGURATION section.";
+
+        addMessage(
+            "AURA",
+            error,
+            ""
+        );
+
+        speak(error);
+
+        return;
+    }
+
+
+    conversation.push({
+
+        role:"user",
+
+        content:userText
+
+    });
+
+
+    try{
+
+        const response =
+            await fetch(
+                GROQ_ENDPOINT,
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " +
+                            GROQ_API_KEY
+                    },
+
+                    body:JSON.stringify({
+
+                        model:GROQ_MODEL,
+
+                        messages:
+                            conversation,
+
+                        temperature:0.7,
+
+                        max_tokens:700
+
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            console.error(
+                "Groq API Error:",
+                data
+            );
+
+            let errorMessage =
+                "Groq API error.";
+
+            if(data?.error?.message){
+
+                errorMessage +=
+                    " " +
+                    data.error.message;
+
+            }
+
+            addMessage(
+                "AURA",
+                errorMessage,
+                ""
+            );
+
+            speak(errorMessage);
+
+            return;
+        }
+
+
+        const reply =
+            data?.choices?.[0]?.message?.content;
+
+
+        if(!reply){
+
+            throw new Error(
+                "No response was returned by Groq."
+            );
+        }
+
+
+        conversation.push({
+
+            role:"assistant",
+
+            content:reply
+
+        });
+
+
+        addMessage(
+            "AURA",
+            reply,
+            ""
+        );
+
+
+        speak(reply);
+
+    }
+
+    catch(error){
+
+        console.error(
+            "AURA ERROR:",
+            error
+        );
+
+        const message =
+            "Connection failed. " +
+            error.message;
+
+        addMessage(
+            "AURA",
+            message,
+            ""
+        );
+
+        speak(
+            "Connection failed."
+        );
+    }
+}
+
+
+/* =========================================================
+   SEND MESSAGE
+   ========================================================= */
+
+async function sendMessage(){
+
+    const text =
+        input.value.trim();
+
+    if(!text){
+        return;
+    }
+
+
+    addMessage(
+        "YOU",
+        text,
+        "user"
+    );
+
+
+    input.value = "";
+
+
+    /*
+       IMPORTANT:
+       Browser commands are checked BEFORE AI.
+    */
+
+    if(handleCommand(text)){
+        return;
+    }
+
+
+    await askAura(text);
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+send.addEventListener(
+    "click",
+    sendMessage
+);
+
+
+input.addEventListener(
+    "keydown",
+    event => {
+
+        if(event.key === "Enter"){
+
+            event.preventDefault();
+
+            sendMessage();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   VOICE RECOGNITION
+   ========================================================= */
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+
+let recognition = null;
+
+
+if(SpeechRecognition){
+
+    recognition =
+        new SpeechRecognition();
+
+    recognition.lang =
+        "en-US";
+
+    recognition.continuous =
+        false;
+
+    recognition.interimResults =
+        false;
+
+
+    recognition.onstart = () => {
+
+        mic.classList.add(
+            "listening"
+        );
+
+        voiceStatus.textContent =
+            "LISTENING";
+
+    };
+
+
+    recognition.onresult = event => {
+
+        const transcript =
+            event.results[0][0].transcript;
+
+        input.value =
+            transcript;
+
+        sendMessage();
+
+    };
+
+
+    recognition.onerror = event => {
+
+        console.error(
+            "Speech recognition:",
+            event.error
+        );
+
+        mic.classList.remove(
+            "listening"
+        );
+
+        voiceStatus.textContent =
+            "READY";
+
+    };
+
+
+    recognition.onend = () => {
+
+        mic.classList.remove(
+            "listening"
+        );
+
+        voiceStatus.textContent =
+            "READY";
+
+    };
+
+
+    mic.addEventListener(
+        "click",
+        () => {
+
+            try{
+
+                recognition.start();
+
+            }
+            catch(error){
+
+                console.log(error);
+
+            }
+
+        }
+    );
+
+}
+else{
+
+    mic.disabled = true;
+
+    voiceStatus.textContent =
+        "UNAVAILABLE";
+}
+
+
+/* =========================================================
+   STARTUP
+   ========================================================= */
+
+console.log(
+    "AURA CORE initialized."
+);
+
+console.log(
+    "AI Model:",
+    GROQ_MODEL
+);
+
+</script>
+
+</body>
+</html>
